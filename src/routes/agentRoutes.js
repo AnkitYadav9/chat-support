@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const Agent = require('../models/Agent');
 const auth = require('../middleware/auth');
 
-// Create agent (POST /api/agents) - for testing
+// Create agent 
 router.post('/agents', auth, async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -17,7 +17,7 @@ router.post('/agents', auth, async (req, res, next) => {
   }
 });
 
-// List agents (GET /api/agents)
+// List agents 
 router.get('/agents', auth, async (req, res, next) => {
   try {
     const agents = await Agent.find();
