@@ -7,7 +7,7 @@ const Agent = require('../models/Agent');
 const Session = require('../models/Session');
 const Message = require('../models/Message');
 
-// ✅ Start a session
+//  Start a session
 router.post('/start-session', auth, async (req, res, next) => {
   try {
     const { userId } = req.body;
@@ -34,7 +34,7 @@ router.post('/start-session', auth, async (req, res, next) => {
   }
 });
 
-// ✅ Get all sessions (NEWLY ADDED)
+//  Get all sessions 
 router.get('/sessions', auth, async (req, res, next) => {
   try {
     const sessions = await Session.find().sort({ startTime: -1 });
@@ -44,7 +44,7 @@ router.get('/sessions', auth, async (req, res, next) => {
   }
 });
 
-// ✅ Get all messages for a session
+//  Get all messages for a session
 router.get('/messages/:sessionId', auth, async (req, res, next) => {
   try {
     const sessionId = req.params.sessionId;
@@ -54,7 +54,7 @@ router.get('/messages/:sessionId', auth, async (req, res, next) => {
     next(err);
   }
 });
-// ✅ Send a message in a session
+//  Send a message in a session
 router.post('/messages', auth, async (req, res, next) => {
   try {
     const { sessionId, sender, role, message } = req.body;
@@ -85,7 +85,7 @@ router.post('/messages', auth, async (req, res, next) => {
   }
 });
 
-// ✅ End a session
+//  End a session
 router.post('/end-session/:sessionId', auth, async (req, res, next) => {
   try {
     const sessionId = req.params.sessionId;
