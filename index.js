@@ -15,32 +15,32 @@ const agentRoutes = require('./src/routes/agentRoutes');
 
 const app = express();
 
-// ===== Middlewares =====
+//  Middleware
 app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
-// ===== Serve Static Frontend =====
+// Serve Static Frontend
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ===== API Routes =====
+
 app.use('/api', sessionRoutes);
 app.use('/api', agentRoutes);
 
-// ===== Health Check =====
+// Health Check 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
-// ===== Error Handler (Last Middleware) =====
+//  Error Handler 
 app.use(errorHandler);
 
-// ===== Create HTTP + Socket.IO Server =====
+//  Create HTTP + Socket.IO Server 
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
 
-// ===== Start App after DB Connection =====
+//  Start App after DB Connection 
 connectDB()
   .then(() => {
-    // ✅ Socket Authentication Middleware
+    //  Socket Authentication Middleware
     io.use(async (socket, next) => {
       try {
         const { apiKey, sessionId, userId, role } = socket.handshake.auth || {};
@@ -70,7 +70,7 @@ connectDB()
       }
     });
 
-    // ===== Socket Events =====
+    //  Socket Events 
     io.on('connection', (socket) => {
       const room = `session:${socket.data.sessionId}`;
       socket.join(room);
@@ -78,7 +78,7 @@ connectDB()
       logger.info(`${socket.data.role} (${socket.data.userId}) joined ${room}`);
       socket.to(room).emit('system', { message: `${socket.data.role} joined` });
 
-      // ✅ Handle incoming messages
+      // Handle incoming messages
       socket.on('message', async (payload) => {
         try {
           const Message = require('./src/models/Message');
@@ -98,7 +98,7 @@ connectDB()
         }
       });
 
-      // ✅ Handle disconnects
+      //  Handle disconnects
       socket.on('disconnect', () => {
         logger.info(
           `Socket disconnected: ${socket.id} (${socket.data?.userId})`
@@ -109,16 +109,16 @@ connectDB()
       });
     });
 
-    // ===== Start Server =====
+    // Start Server 
     const PORT = process.env.PORT || 5002;
     const HOST = process.env.HOST || '127.0.0.1';
 
     server.listen(PORT, HOST, () => {
-      logger.info(`🚀 Server running on http://${HOST}:${PORT}`);
+      logger.info(` Server running on http://${HOST}:${PORT}`);
     });
   })
   .catch((err) => {
-    logger.error('❌ Failed to start server: ' + err.message);
+    logger.error(' Failed to start server: ' + err.message);
     process.exit(1);
   });
 
