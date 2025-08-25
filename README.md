@@ -1,4 +1,4 @@
-# 💬 Chat Support System
+#  Chat Support System
 
 A real-time chat support system built using **Node.js**, **Express**, and **Socket.io**.  
 This project allows users to connect with support agents and exchange messages in real-time.  
@@ -17,7 +17,7 @@ This project demonstrates:
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 ### **Backend**
 - Node.js
 - Express.js
@@ -29,7 +29,7 @@ This project demonstrates:
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 chat-support/
 ├── logs/                     # Logs for API and socket events
