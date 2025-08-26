@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script>
     const API_KEY = prompt('Enter API key (same as server .env API_KEY)', 'supersecretkey');
     let socket = null, sessionId = null, agentId = null;
@@ -42,7 +42,10 @@
       sessionId = document.getElementById('sessionId').value.trim();
       if (!agentId || !sessionId) return alert('Agent ID and Session ID required');
 
-      socket = io({ auth: { apiKey: API_KEY, sessionId, userId: agentId, role: 'agent' } });
+       socket = io('http://127.0.0.1:5002', { 
+    auth: { apiKey: API_KEY, sessionId, userId: agentId, role: 'agent' } 
+});
+
 
       socket.on('connect', () => console.log('Socket connected', socket.id));
       socket.on('system', d => appendSystem(d.message));
